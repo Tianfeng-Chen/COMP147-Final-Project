@@ -4,6 +4,9 @@ import java.io.*;
 import java.util.*;
 
 public class FileProcessor {
+    /**
+     * The processor to deal with the source file
+     */
     private Map<Integer, List<Integer>> graph;
     private List<List<Integer>> booleanFormula;
 
@@ -14,6 +17,11 @@ public class FileProcessor {
         this.booleanFormula = new ArrayList<>();
     }
 
+    /**
+     * This processor has been constructed as a singleton
+     * This function is designed to retrieve the processor instance
+     * @return the instance of this processor
+     */
     public static FileProcessor getFileProcessor() {
         if (instance == null) {
             synchronized (FileProcessor.class) {
@@ -25,6 +33,12 @@ public class FileProcessor {
         return instance;
     }
 
+    /**
+     * Main method to process the source file
+     * After the processing, method reset() will be called to clean the containers
+     * @param filePath the path of the source file
+     * @throws IOException
+     */
     public void processFile(String filePath) throws IOException {
         File inputFile = new File(filePath);
         BufferedReader bufferedReader = new BufferedReader(new FileReader(inputFile));
@@ -48,6 +62,7 @@ public class FileProcessor {
             System.out.println(formula);
         }
         printOutput(filePath);
+        reset();
     }
 
     private void processNodes() {
@@ -81,13 +96,8 @@ public class FileProcessor {
     }
 
     private void printOutput(String filePath) throws IOException {
-        String[] path = filePath.split("/");
         StringBuilder outputPath = new StringBuilder();
-        for (int i = 0; i < path.length - 1; i++) {
-            outputPath.append(path[i]);
-            outputPath.append("/");
-        }
-        String[] fileName = path[path.length - 1].split("\\.");
+        String[] fileName = filePath.split("\\.");
         outputPath.append(fileName[0] + "_output.txt");
         FileWriter fileWriter = new FileWriter(new File(outputPath.toString()), true);
         for (List<Integer> formula : booleanFormula) {
@@ -100,5 +110,10 @@ public class FileProcessor {
             }
         }
         fileWriter.close();
+    }
+
+    private void reset() {
+        this.graph = new HashMap<>();
+        this.booleanFormula = new ArrayList<>();
     }
 }

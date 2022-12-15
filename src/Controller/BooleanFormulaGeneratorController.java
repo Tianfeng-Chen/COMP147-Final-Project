@@ -6,6 +6,11 @@ import java.io.IOException;
 
 public class BooleanFormulaGeneratorController {
     public static void main(String[] args) throws IOException {
-        FileProcessor.getFileProcessor().processFile("src/Util/input_graph_4.txt");
+        /**
+         * This controller will process the source file and generate an output file in the same dir with
+         * the source file, it will generate the result in console as well.
+         * @param filePath the path to the source file.
+         */
+        FileProcessor.getFileProcessor().processFile("src/Util/input_graph_1.txt");
     }
 }
